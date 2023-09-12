@@ -1,0 +1,211 @@
+---
+// Component Imports
+import Button from '../components/Button.astro';
+
+// Full Astro Component Syntax:
+// https://docs.astro.build/core-concepts/astro-components/
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Alex Sanchez - Portfolio</title>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<script is:inline src="/collisions.js"></script>
+		<script is:inline src="/zones.js"></script>
+		<script src="../scripts/index.js"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+		<style>
+			/* Hide scrollbar for Chrome, Safari, and Opera */
+			.hide-scrollbar::-webkit-scrollbar {
+				display:none;
+			}
+
+			/* Hide scrollbar for IE, Edge, Firefox */
+			.hide-scrollbar {
+				-ms-overflow-style:none; /* IE and Edge */
+				scrollbar-width: none; /* Firefox */
+			}
+		</style>
+	</head>
+
+	<body style="background-color: white; cursor: url('/images/mouseIcon.png'), default; overflow: hidden; font-family: 'Press Start 2P', cursive;">
+		<!-- preloader -->
+		<div class="preloader" style="display:none;">
+
+		</div>
+		<!-- //preloeader -->
+
+		<!-- welcome page -->
+		<div id="welcome-menu" class="absolute inset-x-0 inset-y-0 flex items-center backdrop-blur-sm justify-center bg-gray-600/30" style="z-index: 11;">
+			<div class="grid grid-flow-row auto-rows-max justify-items-center text-center gap-8">
+				<h1 class="text-6xl text-white"> Alex Sanchez</h1>
+				<p class="text-2xl text-white">Portfolio Site</p>
+				<button id="playbtn" class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 mr-3 rounded-lg text-white text-3xl shadow-xl">
+					PLAY
+				</button>
+			</div>
+		</div>
+		<!-- //welcome page -->
+
+		<!-- menus page -->
+		<div id="overlay" class="fixed hidden z-40 w-screen h-screen inset-0 bg-gray-900 bg-opacity-60">
+		</div>
+		<div id="menu"
+			class="hidden fixed z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 bg-[rgba(0,0,0,.60)] rounded-md px-9 py-7 space-y-5 drop-shadow-lg">
+			<div class="flex justify-center text-center flex-col">
+				<ul class="list-none leading-[3rem] text-lg ">
+					{[
+						['aboutbtn', 'About', 'javascript: void(0)'],
+						['portbtn', 'Portfolio', 'javascript: void(0)'],
+						['resumebtn', 'Resume', 'javascript: void(0)'],
+						['contactbtn', 'Contact', 'javascript: void(0)']
+					].map(([id, title, url]) => (
+						<li class="transition ease-in-out delay-100 text-white hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-500">
+							<a id={id} href={url}>{title}</a>
+						</li>
+					))}
+				</ul>
+				<div>
+					<button id="closebtn" class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 my-4 rounded-lg text-white text-3xl shadow-xl">
+						CLOSE
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<button
+		id="menubtn"
+		class="hidden absolute z-10 bg-gradient-to-tr from-orange-300 to-orange-600 hover:to-orange-500 hover:text-black font-bold py-3 px-6 ml-4 mt-4 rounded-lg text-white shadow-[0_4px_9px_-4px_#3b71ca]"
+		data-modal-target="defaultModal" data-modal-toggle="defaultModal">
+			MENU
+		</button>
+		<!-- //menus page -->
+
+		<div id="modalpage" class="hidden fixed z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-4/5 overflow-x-hidden overflow-y-auto hide-scrollbar bg-[rgba(255,255,255)] rounded-md px-9 py-7 space-y-5 drop-shadow-lg">
+			<!-- content menu -->
+			<div class="inline-block w-[100%] text-2xl top-0 sticky select-none">
+				<div id="prev" class="cursor-pointer float-left m-1 py-2 px-2 mx-2 text-center border-solid border-4 bg-white shadow-[0_6px_6px_0px_rgba(0,0,0,.5)]">
+					<span>&lt;</span>
+				</div>
+				<div id="next" class="cursor-pointer float-left m-1 py-2 px-2 mx-2 text-center border-solid border-4 bg-white shadow-[0_6px_6px_0px_rgba(0,0,0,.5)]">
+					<span>&gt;</span>
+				</div>
+				<div id="exit" class="cursor-pointer float-right m-1 py-2 px-2 text-center border-solid border-4 border-red-500 bg-red-500 shadow-[0_6px_6px_0px_rgba(0,0,0,.5)]">
+					<span>X</span>
+				</div>
+			</div>
+			<!-- //content menu -->
+			<!-- about page -->
+			<div id="about-text" class="content hidden justify-center flex-col text-black">
+				<h2 class="text-center text-5xl my-2">About Me</h2>
+				<!-- image of me -->
+				<img class="my-3 py-4 mr-5 max-w-[40%] float-left" src="images/me.jpg" alt="image of me">
+				<!-- //image of me -->
+				{[
+					["I'm Alex Sanchez, a passionate and creative web developer with a Bachelor's in Computing & Information Technologies and a minor in Music Technology"],
+					["My journey in the tech field began with a simple curiosity that evolved into a deep-seated passion for coding. With concentrations in Web Development and Networking, I thrive on the challenge of creating elegant solutions and I am commited to continously expanding my skill set."],
+					["But it's not just about the code - it's about the people. I believe that the true essence of technology lies in its ability to enhance and simplify our lives. That's why I'm not only dedicated to crafting efficient, user-friendly solutions but also fostering meaningful connections with those I work with."],
+					["When I'm not immersed in tech, you'll often find me exploring the great outdoors, experimenting with new recipes in the kitchen, or maintaining a balanced lifestyle by hitting the gym regularly. I'm equally at home in the virtual world, where I enjoy competitive gaming"],
+					["I'm excited to connect, collaborate, and create with like-minded individuals who share my enthusiasm for technology and it's boundless potential. Let's embark on this journey together and turn ideas into reality."]
+				].map(([paragraph]) => (
+					<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+						{paragraph}
+					</p>
+				))}
+			</div>
+			<!-- //about page -->
+			<!-- portfolio page -->
+			<div id="port-text" class="content hidden justify-center flex-col text-black">
+				<h2 class="text-center text-5xl my-2">Portfolio</h2>
+				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+					During my time at Rochester Institute of Technology, I had the opportunity to work on a multitude of projects.
+				</p>
+				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+					I'm eager to share those that I am most proud of, each representing a significant milestone in my journey as a developer.
+				</p>
+				{[
+					["Yorkshire Inn B&B", "/images/YorkshireInn.png", "https://github.com/alexsan9051/YorkshireInnBnB", "As the Project Manager and lead Front-End Developer for my senior year capstone project, I led a comprehensive site overhaul for a local B&B. This dual role allowed me to showcase my leadership in development, design expertise, and project management skills, culminating in a successful transformation that underscores my ability to deliver modern and visually captivating websites."],
+					["IST Department Site", "/images/ISTSite.png", "https://github.com/alexsan9051/ISTDepartment", "I revamped the IST Department Site, making it dynamic with AJAX calls in JavaScript, ensuring smooth data retrieval. Using jQuery, I streamlined functionality, prioritizing reusability and scalability. My attention to detail extended to CSS for a consistent and engaging user experience."],
+					["PHP Web Application", "/images/PHPWebApp.png", "https://github.com/alexsan9051/PHPWebApplication", "I built a full-stack web application for event registration. I introduced a secure login system using session-based authentication to manage user access and maintain database integrity. To ensure data reliability, I relied on parameterized prepared statements, effectively preventing SQL injection."]
+				].map(([title, imgsrc, link, paragraph]) => (
+					<div class="my-3">
+						<section class="py-3">
+							<h2 class="text-3xl">{title}</h2>
+							<img class="my-3 py-4 mr-5" src={imgsrc} alt="image of me">
+							<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+								{paragraph}
+							</p>
+							<div class="mx-2 my-4">
+								<a class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 rounded-lg text-white text-lg shadow-xl" href={link} target="_blank" rel="noopener noreferrer">
+								Visit
+								</a>
+							</div>
+						</section>
+					</div>
+				))}
+			</div>
+			<!-- //portfolio page -->
+			<!-- resume page -->
+			<div id="resume-text" class="content hidden justify-center flex-col text-black">
+				<h2 class="text-center text-5xl my-2">Resume</h2>
+				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+					As a budding web developer, I am fueled by a deep passion for creating engaging online experiences. My journey into the world of web development is marked by a strong foundation in front-end technologies like HTML5, CSS3, and JavaScript, coupled with an insatiable curiosity to explore more.
+				</p>
+				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+					While my experiences may not span decades, my commitment to learning and staying up-to-date with industry trends is unwavering. I thrive in collaborative environments and look forward to contributing my skills to innovative web projects. Let's embark on this exciting journey together!
+				</p>
+				<div class="text-center mt-4">
+					<a class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 my-4 rounded-lg text-white text-3xl shadow-xl" href="https://www.linkedin.com/in/alex-sanchez-766644209/" target="_blank" rel="noopener noreferrer">
+						LinkedIn Profile
+					</a>
+				</div>
+			</div>
+			<!-- //resume page -->
+			<!-- contact page -->
+			<div id="contact-text" class="content hidden flex-col text-black">
+				<h2 class="text-center text-5xl my-2">Contact</h2>
+				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+					Have any questions? Here are some ways to contact me:
+				</p>
+				<div class="text-2xl px-8 py-4 mx-2 tracking-wide leading-relaxed">
+					<ul>
+					{[
+						["Github", "https://github.com/alexsan9051"],
+						["LinkedIn", "https://www.linkedin.com/in/alex-sanchez-766644209/"]
+					].map(([contact, url]) => (
+					<li>
+						<a href={url} class="transition ease-in-out delay-100 text-blue-400 hover:-translate-y-1 hover:scale-110 hover:text-blue-600 duration-500" target="_blank" rel="noopener noreferrer">{contact}</a>
+					</li>
+					))}
+				</ul>
+				</div>
+				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+					I am most reachable at my email address:
+				</p>
+				<div class="text-3xl py-4 text-center">
+					<a href="mailto:alexs.an@outlook.com" class="transition ease-in-out delay-100 text-orange-400 hover:-translate-y-1 hover:scale-110 hover:text-orange-600 duration-500">alexs.an@outlook.com</a>
+				</div>
+			</div>
+		</div>
+		<!-- //contact page -->
+		
+		<!-- game -->
+		<div id="textCont" class="fixed hidden z-40 top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 bg-[rgba(255,255,255)] rounded-md px-12 py-7 space-y-5 drop-shadow-lg">
+			<div id="text" class="text-center">
+
+			</div>
+		</div>
+		<div id="game" class="z-1" style="display: inline-block; position: relative;">
+			<canvas>
+			</canvas>
+		</div>
+		<!-- //game -->
+	</body>
+</html>
