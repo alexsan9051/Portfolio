@@ -37,7 +37,7 @@ const boundaries = []
 //the offset of the sprites
 var offset = {
     x: -190,
-    y: -400
+    y: -500
 }
 
 // CLASSES
