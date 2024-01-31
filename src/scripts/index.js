@@ -4,6 +4,59 @@ const c = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
+//the offset of the sprites
+var offset = {
+    x: canvas.width / 2 - 1100,
+    y: canvas.height / 2 - 1000
+}
+
+//function to set a cookie, expiration time in min
+function setCookie(cookieName, cookieValue, expirationMinutes) {
+    const d = new Date();
+    d.setTime(d.getTime() + (expirationMinutes * 60 * 1000)); // Convert minutes to milliseconds
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+}
+
+// Function to get a cookie value by name
+function getCookie(cookieName) {
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i].trim();
+        if (cookie.indexOf(name) === 0) {
+            return cookie.substring(name.length, cookie.length);
+        }
+    }
+
+    return null;
+}
+
+
+const gameInitiated = getCookie('gameInitiated');
+
+// function resize() {
+//     canvas.width = window.innerWidth;
+//     canvas.height = window.innerHeight;
+//     //the offset of the sprites
+//     offset = {
+//         x: canvas.width / 2 - 1100,
+//         y: canvas.height / 2 - 1100
+//     }
+//     location.reload();
+// }
+
+window.addEventListener('resize', function() {
+    // resize();
+    if (window.RT) clearTimeout(window.RT);
+    window.RT = setTimeout(function()
+    {
+        this.location.reload(false); /* false to get page from cache */
+  }, 100);
+});
+
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, 70 + i))
@@ -33,12 +86,13 @@ for (let i = 0; i < zoneBoat.length; i += 70) {
     zonesContact.push(zoneBoat.slice(i, 70 + i))
 }
 
-const boundaries = []
-//the offset of the sprites
-var offset = {
-    x: -190,
-    y: -500
+//zones for house roof
+const zonesRoof = []
+for (let i = 0; i < roofZone.length; i += 70) {
+    zonesRoof.push(roofZone.slice(i, 70 + i))
 }
+
+const boundaries = []
 
 // CLASSES
 class Sprite {
@@ -174,6 +228,22 @@ zonesContact.forEach((row, i) => {
     })
 })
 
+const zonesRO = []
+
+zonesRoof.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if (symbol === 1427)
+            zonesRO.push(
+                new Boundary({
+                    position: {
+                        x: j * Boundary.width + offset.x,
+                        y: i * Boundary.height + offset.y
+                    }
+                })
+            )
+    })
+})
+
 const image = new Image()
 image.src = '/images/Map3.png'
 
@@ -254,7 +324,7 @@ const keys = {
     }
 }
 
-const movables = [background, ...boundaries, foreground, ...zonesR, ...zonesA, ...zonesC, ...zonesP, roof]
+const movables = [background, ...boundaries, foreground, ...zonesR, ...zonesA, ...zonesC, ...zonesP, ...zonesRO, roof]
 
 function rectangularCollision({rectangle1, rectangle2}){
     return (rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
@@ -272,16 +342,28 @@ const play = {
 }
 
 // check whether the playbtn was clicked, and if so, set play.init to true and hide menu
-document.getElementById('playbtn').addEventListener("click", function() {
-    play.init = true
-    $('#welcome-menu').fadeOut(2000, function() {
-        $('#welcome-menu').css('visibility','hidden')
-    });
-    $('#menubtn').fadeIn(2000, function() {
-        $('#menubtn').removeClass('hidden');
-    })
-    addText();
-}, {once:true});
+if (!gameInitiated) {
+    document.getElementById('playbtn').addEventListener("click", function() {
+        play.init = true
+        //set cookie to bypass start menu and initial text
+        setCookie('gameInitiated', 'true', 10);
+    
+        $('#welcome-menu').fadeOut(2000, function() {
+            $('#welcome-menu').css('visibility','hidden');
+        });
+        $('#menubtn').fadeIn(2000, function() {
+            $('#menubtn').removeClass('hidden');
+        })
+        addText();
+    }, {once:true});
+}
+
+//if they have visited the site before and init game, then skip the menu
+if (gameInitiated) {
+    play.init = true;
+    document.getElementById('welcome-menu').style.visibility = "hidden";
+    document.getElementById('menubtn').classList.remove('hidden');
+}
 
 //check whether menu button is clicked: display menu.
 var menubtn = document.getElementById('menubtn')
@@ -389,18 +471,29 @@ function addText() {
     ];
 
     //fade in white container
-    setTimeout(function(){
-        $('#textCont').fadeIn(350, function() {
-            $('#textCont').removeClass('hidden');
-            displayText();
-        });
-    }, 1000)
+    if (!gameInitiated) {
+        setTimeout(function(){
+            $('#textCont').fadeIn(350, function() {
+                $('#textCont').removeClass('hidden');
+                displayText();
+            });
+        }, 1000)
+    }
 
     var lineIndex = 0;
     var charIndex = 0;
 
     //display the text char by char
     function displayText() {
+        if (gameInitiated) {
+            // If cookie is initiated, clear the container and hide it immediately
+            container.empty();
+            $("#textCont").fadeOut(20, function () {
+                $("#textCont").addClass('hidden');
+            });
+            return; // Exit the function early
+        }
+
         if (popup.initiated) {
             // If popup is initiated, clear the container and hide it immediately
             container.empty();
@@ -472,20 +565,6 @@ function checkPlayerInZone(player, zones, playerOnZone, modalSelector) {
 
 //animate canvas
 function animate() {
-
-    //Trying to make canvas responsive. Work In Progress.
-    window.onresize = function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        // if (window.innerWidth <= 640) {
-        //     offset = {
-        //         x: -900,
-        //         y: -400
-        //     };
-        //     console.log(offset);
-        // }
-    }
-
     window.requestAnimationFrame(animate)
     background.draw()
     boundaries.forEach(boundary => {
@@ -503,16 +582,38 @@ function animate() {
     zonesC.forEach(zonesC => {
         zonesC.draw()
     })
+    zonesRO.forEach(zonesRO => {
+        zonesRO.draw()
+    })
+
     //after clicking play, draw player
     if (play.init) {
         player.draw()
     }
     foreground.draw()
 
-    // check if under roof, if not, draw it
-    if (!((roof.position.y > -430) && (roof.position.x > -350) && (roof.position.x < 10 ))) {
-        roof.draw()
-    } 
+    //check if player is under roof
+    let isPlayerOutside = true;
+
+    for (const zone of zonesRO) {
+        const playerX = player.position.x + player.width / 2;
+        const playerY = player.position.y + player.height / 2;
+
+        if (
+            playerX >= zone.position.x &&
+            playerX <= zone.position.x + zone.width &&
+            playerY >= zone.position.y &&
+            playerY <= zone.position.y + zone.height
+        ) {
+            isPlayerOutside = false; // Player is inside at least one zone
+            break; // No need to continue checking other zones
+        }
+    }
+
+    if (isPlayerOutside) {
+        roof.draw(); // Draw the roof only if the player is outside all zones
+    }
+
 
     let moving = true
     player.moving = false
@@ -626,10 +727,6 @@ function animate() {
     
 }
 animate()
-
-canvas.addEventListener('mousedown', function(e) {
-    getCursorPosition(canvas, e)
-});
 
 // check for key down
 let lastKey = ''
