@@ -773,11 +773,13 @@ let touchThreshold = 20; // Adjust as needed for sensitivity
     
 // Check for swipes
 window.addEventListener('touchstart', e => {
+    e.preventDefault();
     touchStartX = e.changedTouches[0].pageX;
     touchStartY = e.changedTouches[0].pageY;
 });
     
 window.addEventListener('touchmove', e => {
+    e.preventDefault();
     const touchEndX = e.changedTouches[0].pageX;
     const touchEndY = e.changedTouches[0].pageY;
     
@@ -790,11 +792,15 @@ window.addEventListener('touchmove', e => {
             if (swipeDistanceX < 0) {
                 // Swipe left, equivalent to pressing 'a'
                 keys.a.pressed = true;
-                keys.d.pressed = false; // Reset opposite direction
+                keys.d.pressed = false;
+                keys.s.pressed = false;
+                keys.w.pressed = false;
             } else {
                 // Swipe right, equivalent to pressing 'd'
                 keys.d.pressed = true;
-                keys.a.pressed = false; // Reset opposite direction
+                keys.a.pressed = false;
+                keys.s.pressed = false;
+                keys.w.pressed = false;
             }
         }
     } else {
@@ -803,17 +809,22 @@ window.addEventListener('touchmove', e => {
             if (swipeDistanceY < 0) {
                 // Swipe up, equivalent to pressing 'w'
                 keys.w.pressed = true;
-                keys.s.pressed = false; // Reset opposite direction
+                keys.a.pressed = false;
+                keys.d.pressed = false;
+                keys.s.pressed = false;
             } else {
                 // Swipe down, equivalent to pressing 's'
                 keys.s.pressed = true;
-                keys.w.pressed = false; // Reset opposite direction
+                keys.w.pressed = false;
+                keys.a.pressed = false;
+                keys.d.pressed = false;
             }
         }
     }
 });
     
 window.addEventListener('touchend', e => {
+    e.preventDefault();
     // Reset all movement keys to false
     keys.w.pressed = false;
     keys.a.pressed = false;
