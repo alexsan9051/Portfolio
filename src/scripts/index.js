@@ -746,7 +746,7 @@ window.addEventListener('keydown', (e) => {
             keys.d.pressed=true
             break
     }
-})
+});
 
 // check for key up
 window.addEventListener('keyup', (e) => {
@@ -765,4 +765,59 @@ window.addEventListener('keyup', (e) => {
             keys.d.pressed=false
             break
     }
-})
+});
+
+// Allow movement on mobile devices
+let touchStartX = 0;
+let touchStartY = 0;
+let touchThreshold = 20; // Adjust as needed for sensitivity
+    
+// Check for swipes
+window.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].pageX;
+    touchStartY = e.changedTouches[0].pageY;
+});
+    
+window.addEventListener('touchmove', e => {
+    const touchEndX = e.changedTouches[0].pageX;
+    const touchEndY = e.changedTouches[0].pageY;
+    
+    const swipeDistanceX = touchEndX - touchStartX;
+    const swipeDistanceY = touchEndY - touchStartY;
+    
+    if (Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY)) {
+        // Horizontal swipe
+        if (Math.abs(swipeDistanceX) > touchThreshold) {
+            if (swipeDistanceX < 0) {
+                // Swipe left, equivalent to pressing 'a'
+                keys.a.pressed = true;
+                keys.d.pressed = false; // Reset opposite direction
+            } else {
+                // Swipe right, equivalent to pressing 'd'
+                keys.d.pressed = true;
+                keys.a.pressed = false; // Reset opposite direction
+            }
+        }
+    } else {
+        // Vertical swipe
+        if (Math.abs(swipeDistanceY) > touchThreshold) {
+            if (swipeDistanceY < 0) {
+                // Swipe up, equivalent to pressing 'w'
+                keys.w.pressed = true;
+                keys.s.pressed = false; // Reset opposite direction
+            } else {
+                // Swipe down, equivalent to pressing 's'
+                keys.s.pressed = true;
+                keys.w.pressed = false; // Reset opposite direction
+            }
+        }
+    }
+});
+    
+window.addEventListener('touchend', e => {
+    // Reset all movement keys to false
+    keys.w.pressed = false;
+    keys.a.pressed = false;
+    keys.s.pressed = false;
+    keys.d.pressed = false;
+});
