@@ -466,6 +466,7 @@ function addText() {
         "Hello! My name is Alex Sanchez",
         "Welcome to my Portfolio Page!",
         "Use AWSD keys to move around",
+        "Or swipe around your screen if you're on mobile!",
         "Step on portals to learn who I am and what I do",
         "Or use the menu to skip straight to the content"
     ];

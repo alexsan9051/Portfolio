@@ -10,7 +10,7 @@ import Button from '../components/Button.astro';
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<!-- find own icon <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
 		<meta name="generator" content={Astro.generator} />
 		<title>Alex Sanchez - Portfolio</title>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -47,10 +47,10 @@ import Button from '../components/Button.astro';
 			<div class="grid grid-flow-row auto-rows-max justify-items-center text-center gap-8">
 				<h1 class="text-6xl text-white"> Alex Sanchez</h1>
 				<p class="text-2xl text-white">Portfolio Site</p>
-				<button id="playbtn" class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 mr-3 rounded-lg text-white text-3xl shadow-xl">
+				<button id="playbtn" class="bg-orange-400 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 mr-3 rounded-lg text-white text-3xl shadow-xl">
 					PLAY
 				</button>
-			</div>
+			</div>	
 		</div>
 		<!-- //welcome page -->
 
@@ -73,7 +73,7 @@ import Button from '../components/Button.astro';
 					))}
 				</ul>
 				<div>
-					<button id="closebtn" class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 my-4 rounded-lg text-white text-3xl shadow-xl">
+					<button id="closebtn" class="bg-orange-400 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 my-4 rounded-lg text-white text-3xl shadow-xl">
 						CLOSE
 					</button>
 				</div>
@@ -88,7 +88,7 @@ import Button from '../components/Button.astro';
 		</button>
 		<!-- //menus page -->
 
-		<div id="modalpage" class="hidden fixed z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-4/5 overflow-x-hidden overflow-y-auto hide-scrollbar bg-[rgba(255,255,255)] rounded-md px-9 py-7 space-y-5 drop-shadow-lg">
+		<div id="modalpage" class="box-content hidden fixed z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  lg:w-1/2 w-4/5 h-4/5 overflow-x-hidden overflow-y-auto hide-scrollbar bg-[rgba(255,255,255)] rounded-md px-6 lg:px-9 py-7 space-y-5">
 			<!-- content menu -->
 			<div class="inline-block w-[100%] text-2xl top-0 sticky select-none">
 				<div id="prev" class="cursor-pointer float-left m-1 py-2 px-2 mx-2 text-center border-solid border-4 bg-white shadow-[0_6px_6px_0px_rgba(0,0,0,.5)]">
@@ -106,7 +106,7 @@ import Button from '../components/Button.astro';
 			<div id="about-text" class="content hidden justify-center flex-col text-black">
 				<h2 class="text-center text-5xl my-2">About Me</h2>
 				<!-- image of me -->
-				<img class="my-3 py-4 mr-5 max-w-[40%] float-left" src="images/me.jpg" alt="image of me">
+				<img class="my-3 py-4 mr-5 lg:max-w-[40%] lg:float-left" src="images/me.jpg" alt="image of me">
 				<!-- //image of me -->
 				{[
 					["I'm Alex Sanchez, a passionate and creative web developer with a Bachelor's in Computing & Information Technologies and a minor in Music Technology"],
@@ -115,7 +115,7 @@ import Button from '../components/Button.astro';
 					["When I'm not immersed in tech, you'll often find me exploring the great outdoors, experimenting with new recipes in the kitchen, or maintaining a balanced lifestyle by hitting the gym regularly. I'm equally at home in the virtual world, where I enjoy competitive gaming"],
 					["I'm excited to connect, collaborate, and create with like-minded individuals who share my enthusiasm for technology and it's boundless potential. Let's embark on this journey together and turn ideas into reality."]
 				].map(([paragraph]) => (
-					<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+					<p class="text-base lg:text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
 						{paragraph}
 					</p>
 				))}
@@ -123,11 +123,11 @@ import Button from '../components/Button.astro';
 			<!-- //about page -->
 			<!-- portfolio page -->
 			<div id="port-text" class="content hidden justify-center flex-col text-black">
-				<h2 class="text-center text-5xl my-2">Portfolio</h2>
-				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+				<h2 class="text-center text-3xl lg:text-5xl my-2">Portfolio</h2>
+				<p class="text-base lg:text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
 					During my time at Rochester Institute of Technology, I had the opportunity to work on a multitude of projects.
 				</p>
-				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+				<p class="text-base lg:text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
 					I'm eager to share those that I am most proud of, each representing a significant milestone in my journey as a developer.
 				</p>
 				{[
@@ -137,13 +137,13 @@ import Button from '../components/Button.astro';
 				].map(([title, imgsrc, link, paragraph]) => (
 					<div class="my-3">
 						<section class="py-3">
-							<h2 class="text-3xl">{title}</h2>
+							<h2 class="text-2xl lg:text-3xl">{title}</h2>
 							<img class="my-3 py-4 mr-5" src={imgsrc} alt="image of me">
-							<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+							<p class="text-base lg:text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
 								{paragraph}
 							</p>
-							<div class="mx-2 my-4">
-								<a class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 rounded-lg text-white text-lg shadow-xl" href={link} target="_blank" rel="noopener noreferrer">
+							<div class="mx-auto flex justify-center my-4">
+								<a class=" bg-orange-400 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 rounded-lg text-white text-lg shadow-xl" href={link} target="_blank" rel="noopener noreferrer">
 								Visit
 								</a>
 							</div>
@@ -151,10 +151,10 @@ import Button from '../components/Button.astro';
 					</div>
 				))}
 			</div>
-			<!-- //portfolio page -->
+			<!-- portfolio page -->
 			<!-- resume page -->
 			<div id="resume-text" class="content hidden justify-center flex-col text-black">
-				<h2 class="text-center text-5xl my-2">Resume</h2>
+				<h2 class="text-center text-3xl lg:text-5xl my-2">Resume</h2>
 				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
 					As a budding web developer, I am fueled by a deep passion for creating engaging online experiences. My journey into the world of web development is marked by a strong foundation in front-end technologies like HTML5, CSS3, and JavaScript, coupled with an insatiable curiosity to explore more.
 				</p>
@@ -162,19 +162,19 @@ import Button from '../components/Button.astro';
 					While my experiences may not span decades, my commitment to learning and staying up-to-date with industry trends is unwavering. I thrive in collaborative environments and look forward to contributing my skills to innovative web projects. Let's embark on this exciting journey together!
 				</p>
 				<div class="text-center mt-4">
-					<a class="bg-orange-300 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 my-4 rounded-lg text-white text-3xl shadow-xl" href="https://www.linkedin.com/in/alex-sanchez-766644209/" target="_blank" rel="noopener noreferrer">
+					<a class="bg-orange-400 hover:bg-orange-600 hover:text-black font-bold py-5 px-12 my-4 rounded-lg text-white text-base lg:text-3xl shadow-xl" href="https://www.linkedin.com/in/alex-sanchez-766644209/" target="_blank" rel="noopener noreferrer">
 						LinkedIn Profile
 					</a>
 				</div>
 			</div>
-			<!-- //resume page -->
+			<!-- resume page -->
 			<!-- contact page -->
-			<div id="contact-text" class="content hidden flex-col text-black">
-				<h2 class="text-center text-5xl my-2">Contact</h2>
-				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+			<div id="contact-text" class="content hidden relative content-center text-black">
+				<h2 class="text-center text-3xl lg:text-5xl my-2">Contact</h2>
+				<p class="text-sm lg:text-base px-3 py-4 mx-2 tracking-wide leading-relaxed">
 					Have any questions? Here are some ways to contact me:
 				</p>
-				<div class="text-2xl px-8 py-4 mx-2 tracking-wide leading-relaxed">
+				<div class="text-lg lg:text-xl px-8 py-4 mx-2 tracking-wide leading-relaxed">
 					<ul>
 					{[
 						["Github", "https://github.com/alexsan9051"],
@@ -186,10 +186,10 @@ import Button from '../components/Button.astro';
 					))}
 				</ul>
 				</div>
-				<p class="text-lg px-3 py-4 mx-2 tracking-wide leading-relaxed">
+				<p class="text-sm lg:text-base px-3 py-4 mx-2 tracking-wide leading-relaxed">
 					I am most reachable at my email address:
 				</p>
-				<div class="text-3xl py-4 text-center">
+				<div class="text-base lg:text-xl py-4 text-center overflow-hidden">
 					<a href="mailto:alexs.an@outlook.com" class="transition ease-in-out delay-100 text-orange-400 hover:-translate-y-1 hover:scale-110 hover:text-orange-600 duration-500">alexs.an@outlook.com</a>
 				</div>
 			</div>
