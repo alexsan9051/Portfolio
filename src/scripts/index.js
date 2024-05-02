@@ -773,13 +773,13 @@ let touchStartY = 0;
 let touchThreshold = 20; // Adjust as needed for sensitivity
     
 // Check for swipes
-window.addEventListener('touchstart', e => {
+canvas.addEventListener('touchstart', e => {
     e.preventDefault();
     touchStartX = e.changedTouches[0].pageX;
     touchStartY = e.changedTouches[0].pageY;
 });
     
-window.addEventListener('touchmove', e => {
+canvas.addEventListener('touchmove', e => {
     e.preventDefault();
     const touchEndX = e.changedTouches[0].pageX;
     const touchEndY = e.changedTouches[0].pageY;
@@ -824,7 +824,7 @@ window.addEventListener('touchmove', e => {
     }
 });
     
-window.addEventListener('touchend', e => {
+canvas.addEventListener('touchend', e => {
     e.preventDefault();
     // Reset all movement keys to false
     keys.w.pressed = false;
